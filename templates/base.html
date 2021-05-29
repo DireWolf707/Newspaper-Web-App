@@ -20,9 +20,15 @@
           Hi {{user.username}}
           </span>
           <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'password_change' %}">Pass change</a>
+          </li>
+          <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
           </li>
           {% else %}
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'password_reset' %}">Pass reset</a>
+          </li>
           <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
           </li>
