@@ -4,7 +4,6 @@ from .models import Article,Comment
 class CommentInline(admin.TabularInline):
     model = Comment
     extra = 0
-    #fields = ('comment',)
     
     
 class ArticleAdmin(admin.ModelAdmin):
