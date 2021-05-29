@@ -5,5 +5,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'),unique=True)
     age = models.PositiveIntegerField()
+    
+    REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['age']
 
     
