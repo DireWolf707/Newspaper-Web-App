@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{{article}}
+<a href="{% url 'article_delete' article.pk %}">delete</a>
+<a href="{% url 'article_update' article.pk %}">edit</a>
+
+{% for comment in comments %}
+{{comment.user}}-{{comment.comment}}
+{% endfor %}
+{% endblock content %}
