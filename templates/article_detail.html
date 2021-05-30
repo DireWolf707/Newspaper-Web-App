@@ -1,12 +1,43 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
-{{article}}
-<a href="{% url 'article_delete' article.pk %}">delete</a>
-<a href="{% url 'article_update' article.pk %}">edit</a>
+<h2 class='mx-4 my-3'>Article</h2>
+<div class="card mx-4 my-2 mb-4">
+  <div class="card-body">
+    <h5 class="card-title">{{article.title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">By-{{article.author}}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">Created-{{article.created}}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">Edited-{{article.edited}}</h6>
+    <hr>
+    <p class="card-text">{{article.body}}</p>
+    {% if user == article.author %}
+    <a class="btn btn-warning" href="{% url 'article_update' article.pk %}" role="button">edit</a>
+    <a class="btn btn-danger" href="{% url 'article_delete' article.pk %}" role="button">delete</a>
+    {% endif %}
+  </div>
+</div>
 
+<div class='mx-4'>
+<h2>Comment Section</h2>
+<form method="post">
+{% csrf_token %}
+{{form|crispy}}
+<button type="submit" class="btn btn-success my-3">Submit</button>
+</form>
+</div>
+
+<ol class="list-group list-group-numbered mx-4 mb-4">
 {% for comment in comments %}
-{{comment.user}}-{{comment.comment}}
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">{{comment.user}}</div>
+      <div class="text-break">{{comment.comment}}</div>
+    </div>
+  </li>
+{% empty %}
+No Comments yet...
 {% endfor %}
+</ol>
+
 {% endblock content %}

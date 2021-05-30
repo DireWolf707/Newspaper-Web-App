@@ -1,6 +1,17 @@
-{% extends 'base.html' %}   
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="mx-4 my-4">Hello</div>
-<a href="{% url 'article_list' %}">articles</a>
+<div class="p-4 mt-5 bg-light rounded-3 mx-5">
+    <div class="container-fluid py-5 ">
+    <h1 class="display-5 fw-bold">Newspaper Web App</h1>
+    <br>
+    <p class="col-md-8 fs-5 p-2">Create Or See Other's Articles Now!</p>
+    {% if user.is_authenticated %}
+    <a class="btn btn-primary btn-lg mt-2" href="{% url 'article_list' %}" role="button">Article List</a>&nbsp
+    {% else %}
+    <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button">SignUp</a>&nbsp
+    <a class="btn btn-warning btn-lg" href="{% url 'login' %}" role="button">Login</a>
+    {% endif %}
+    </div>
+</div>
 {% endblock content %}

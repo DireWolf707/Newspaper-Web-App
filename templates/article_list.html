@@ -1,9 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="{% url 'article_create' %}">Create New</a>
 
+<div class="container">
 {% for article in articles %}
-<a href="{% url 'article_detail' article.pk %}">{{article}}</a>
+<div class="card my-3">
+  <div class="card-header">
+    By-{{article.author}}
+  </div>
+  <div class="card-body position-relative">
+    <h5 class="card-title">{{article.title}}</h5>
+    <hr>
+    <p class="card-text text-truncate">{{article.body}}</p>
+    <br>
+    <a class="btn btn-primary position-absolute bottom-0 start-50 translate-middle-x" href="{% url 'article_detail' article.pk %}" role="button">Check Out!</a>
+  </div>
+  <div class="card-footer text-muted text-center">
+    Created At {{article.created}} 
+  </div>
+</div>
+{% empty %}
+<h3 class="my-4">No Articles Yet...</h3>
 {% endfor %}
+</div>
 {% endblock content %}

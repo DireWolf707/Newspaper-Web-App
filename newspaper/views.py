@@ -1,21 +1,32 @@
 from django.views.generic import View,CreateView,UpdateView,TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from .models import Article
+from .models import Article,Comment
 from django.shortcuts import render,redirect,get_object_or_404
+from .forms import CommentForm
 
 class HomeView(TemplateView):
     template_name ='home.html'
     
 class ArticleListView(LoginRequiredMixin,View):
     def get(self,request, *args, **kwargs):
-        articles = Article.objects.all()
+        articles = Article.objects.all().order_by('-created')
         return render(request,'article_list.html', {'articles': articles})
 
 class ArticalDetailView(LoginRequiredMixin,View):
     def get(self,request, *args, **kwargs):
         article = get_object_or_404(Article,pk=self.kwargs['pk'])
         comments = article.comments.all()
-        return render(request,'article_detail.html', {'article': article,'comments':comments})
+        comment_form = CommentForm()
+        return render(request,'article_detail.html', {'article': article,'comments':comments,'form':comment_form})
+    
+    def post(self,request, *args, **kwargs):
+        pk=self.kwargs['pk']
+        article=get_object_or_404(Article,pk=pk)
+        comment = Comment(article=article,
+                          comment=self.request.POST['comment'],
+                          user=self.request.user)
+        comment.save()
+        return redirect('article_detail',pk)
     
 class ArticalUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Article
